@@ -1,3 +1,7 @@
+const defaultTheme = "tolkien";
+const defaultMaxGuesses = 10;
+
+
 var OutcomeEnum = {
 	WIN: 1,
 	LOSS: 2,
@@ -7,25 +11,25 @@ var OutcomeEnum = {
 
 var quotesForWords = {
 	"Amon Sul": {
-		quotes: "But long before, in the first days of the North Kingdom, they built a great watch-tower on Weathertop, Amon Sûl they called it. It was burned and broken, and nothing remains of it now but a tumbled ring, like a rough crown on the old hill’s head. Yet once it was tall and fair. It is told that Elendil stood there watching for the coming of Gil-galad out of the West, in the days of the Last Alliance.",
+		quote: "But long before, in the first days of the North Kingdom, they built a great watch-tower on Weathertop, Amon Sûl they called it. It was burned and broken, and nothing remains of it now but a tumbled ring, like a rough crown on the old hill’s head. Yet once it was tall and fair. It is told that Elendil stood there watching for the coming of Gil-galad out of the West, in the days of the Last Alliance.",
 		quoteSource: "Aragorn",
 		aliases: ["Weathertop"],
 		hints: ["Also the place where Frodo was stabbed by the Witch-King."]
 	},
 	"Gil-Galad": {
-		quote: 	`Gil-galad was an Elven-king.
-				Of him the harpers sadly sing;
-				the last whose realm was fair and free
-				between the Mountains and the Sea.
+		quote: 	`Gil-galad was an Elven-king.<br>
+				Of him the harpers sadly sing;<br>
+				the last whose realm was fair and free<br>
+				between the Mountains and the Sea.<br><br>
 
-				His sword was long, his lance was keen.
-				His shining helm afar was seen;
-				the countless stars of heaven's field
-				were mirrored in his silver shield.
+				His sword was long, his lance was keen.<br>
+				His shining helm afar was seen;<br>
+				the countless stars of heaven's field<br>
+				were mirrored in his silver shield.<br><br>
 
-				But long ago he rode away,
-				and where he dwelleth none can say;
-				for into darkness fell his star
+				But long ago he rode away,<br>
+				and where he dwelleth none can say;<br>
+				for into darkness fell his star<br>
 				in Mordor where the shadows are.`,
 		quoteSource: "The Fall of Gil-galad, as translated by Bilbo Baggins",
 		aliases: [],
@@ -61,7 +65,7 @@ var quotesForWords = {
 
 var HangmanGame = class {
 	constructor(word, maxGuesses) {
-		console.log("hi");
+		console.log("Game is initializing.");
 		// this.guesses = 0;
 		this.word = word;
 		this.maxGuesses = maxGuesses;
@@ -70,12 +74,13 @@ var HangmanGame = class {
 		this.wrongGuesses = {};
 		this.wrongWholeWordGuesses = 0;
 		this.rightGuesses = {};
-		// this.maskedString = "";
 		this.lettersInWord = {};
 		var game = this;
+		// populate the lettersInWord with the letters in word
 		this.word.toLowerCase().split("").forEach(letter => {
-			if (letter !== " ") game.lettersInWord[letter] = letter
+			if (/[a-z]/.test(letter)) game.lettersInWord[letter] = letter
 		});
+
 
 		this.outcome = OutcomeEnum.INPROGRESS;
 
@@ -83,33 +88,30 @@ var HangmanGame = class {
 
 
 	get getGuesses() {
+		console.log("game is in getGuesses()")
 		return this.userGuesses;
 	}
 
-	// get word() {
-	// 	return this.word;
-	// }
+	get guessesLeft() {
+		console.log("game is in guessesLeft()")
+		return this.maxGuesses - this.wrongWholeWordGuesses - Object.keys(this.wrongGuesses).length;
+	}
 
-	// set word(word) {
-	// 	this.word = word;
-	// }
-
-	// get wins() {
-	// 	return this.wins;
-	// }
 
 	get maskedString() {
+		console.log("game is in maskedString getter()")
 		var game = this;
 
 		let maskedString = this.word.split("").map(function(letter) {
 			let lcLetter = letter.toLowerCase();
-			console.log("checking letter", letter, "word:", game.word);
-			return ((typeof game.userGuesses[lcLetter] !== "undefined") || lcLetter === " " ? letter : "_") + "  ";
+			// console.log("checking letter", letter, "word:", game.word);
+			return ((typeof game.userGuesses[lcLetter] !== "undefined") || !(/[a-z]/.test(lcLetter)) ? letter : "_") ;
 		}).join("");
 		return maskedString;
 	}
 
 	guessWord(guessedWord) {
+		console.log("game is in guessWord()")
 		//add all letters to userGuesses so that masked word will show.
 		//This will count all letters that were previously not guessed as single guesses.
 		if (guessedWord !== this.word) {
@@ -127,7 +129,7 @@ var HangmanGame = class {
 	}
 
 	guessLetter(guess) {
-		// console.log("in game.guessLetter. User guessed " + guess);
+		console.log("in game.guessLetter. User guessed " + guess);
 		if (this.outcome === OutcomeEnum.INPROGRESS) {
 			let guessLowerCase = guess.toLowerCase();
 			if (typeof (this.userGuesses[guessLowerCase]) === "undefined") {
@@ -141,8 +143,6 @@ var HangmanGame = class {
 					// update maskedString to show these letters
 					this.rightGuesses[guessLowerCase] = guessLowerCase;
 					if (this.checkForWin()) {
-						// this.wins++;
-						// this.gameInProgress = false;
 						this.outcome = OutcomeEnum.WIN;
 					}
 
@@ -150,8 +150,6 @@ var HangmanGame = class {
 				else {
 					this.wrongGuesses[guessLowerCase] = guessLowerCase;
 					if (this.checkForLoss()) {
-						// this.losses++;
-						// this.gameInProgress = false;
 						this.outcome = OutcomeEnum.LOSS;
 
 					}
@@ -167,11 +165,12 @@ var HangmanGame = class {
 	}
 
 	checkForWin() {
-		return Object.keys(this.rightGuesses).length === Object.keys(this.lettersInWord).length;
+		console.log(this.rightGuesses, Object.keys(this.rightGuesses).length, this.lettersInWord);
+		return Object.keys(this.rightGuesses).length >= Object.keys(this.lettersInWord).length;
 	}
 
 	checkForLoss() {
-		return Object.keys(this.wrongGuesses).length + this.wrongWholeWordGuesses === this.maxGuesses;
+		return Object.keys(this.wrongGuesses).length + this.wrongWholeWordGuesses >= this.maxGuesses;
 
 	}
 
@@ -181,6 +180,7 @@ var HangmanGame = class {
 
 var HangmanApp = class {
 	constructor(maxGuesses, theme) {
+		console.log("Initializing App");
 		this.game;
 		this.theme = theme;
 		this.maxGuesses = maxGuesses;
@@ -198,6 +198,7 @@ var HangmanApp = class {
 
 
 	getPossibleWords(theme) {
+		console.log("Loading possible words");
 		let words = ["Gandalf", "Manwe", "Olorin", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Ingwe", "Olwe", "Melkor", "Morgoth", "Grond", "Angband", "Silmaril", "Utumno", "Elrond", "Gil-Galad", "Galadriel", "Fingon", "Turgon", "Ungoliant", "Telperion", "Laurelin", "Ringil", "Amon Sul", "Amen Hen", "Nazgul", "The Witch-King of Angmar"];
 		return words;
 	}
@@ -205,6 +206,7 @@ var HangmanApp = class {
 
 
 	startGame() {
+		console.log("App is starting game");
 		// get unused word from unusedWords. However, if all unused words are used, reset all unused words with the possible words
 		var app = this;
 		var possibleWordsArray = Object.keys(this.unusedWords);
@@ -216,9 +218,13 @@ var HangmanApp = class {
 		this.word = possibleWordsArray[Math.floor(Math.random()*possibleWordsArray.length)];
 
 		this.game = new HangmanGame(this.word, this.maxGuesses);
+		//remove word from collection of unused words.
+		if (typeof this.unusedWords[this.word] !== "undefined") {
+			delete this.unusedWords[this.word];
+		}
 	}
 
-	getMaskedString() {
+	get maskedString() {
 		if (this.game.outcome === OutcomeEnum.WIN) {
 			return this.word;
 		}
@@ -235,12 +241,68 @@ var HangmanApp = class {
 	guessWord(guessedWord) {
 		return this.game.guessWord(guessedWord);
 	}
+
+	get guessesLeft() {
+		return this.game.guessesLeft;
+	}
+
+	showGame() {
+		// Actually draw game on page.
+		var app = this;
+		// console.log(app);
+		// let guessesLeft = app.guessesLeft;
+		// console.log("guessesLeft: " + guessesLeft);
+		$("#guesses-left").text(app.guessesLeft);
+		console.log(app);
+		console.log("maskedString: " + app.maskedString);
+		var wordSpans = app.maskedString.split("").map(function(letter) {
+			let spanClass = letter !== "_" ? "masked" : letter !== " " ? "unmasked" : "space";
+			return "<span class=" + spanClass +">"+ letter + "</span>";
+		}).join("");
+		// console.log(wordSpans);
+		$("#current-word-card .card-body").html(wordSpans);
+		// console.log("hi", Object.keys(this.game.userGuesses).toString());
+		$("#guessed-letters").text(Object.keys(this.game.userGuesses).toString().split(",").join(" "));
+
+		if (app.game.outcome !== OutcomeEnum.INPROGRESS) {
+			if (app.game.outcome === OutcomeEnum.WIN) {
+				app.wins++;
+				$("#wins-count").addClass("wins-count-updating").fadeOut("slow", function() {
+					$("#wins-count").text(app.wins).fadeIn("slow", function() {
+							$("#wins-count").removeClass("wins-count-updating");
+					});
+				});
+				// $("#wins-count").text(app.wins);
+				// $("#wins-count").fadeIn("slow");
+			}
+			if (typeof quotesForWords[app.word] !== "undefined") {
+				$("#quote-card").text(quotesForWords[app.word].quote);
+				$("#quote-footer").text(quotesForWords[app.word].quoteSource);
+			}
+		}
+
+		$(".active-game").show();
+	}
 }
 
 
 
 
 $(document).ready(function() {
+	var app = new HangmanApp(defaultMaxGuesses, defaultTheme);
 
+	document.onkeyup = function(event) {
+		// if game is not in progress, then any key starts new game.
+		if (typeof app.game === "undefined" || app.game.outcome !== OutcomeEnum.INPROGRESS ) {
+			app.startGame();
+			app.showGame()
+		}
+		else if (/^[a-zA-Z]/.test(event.key)) {
+			console.log(event.key)
+			app.guessLetter(event.key);
+			app.showGame();
+		}
+
+	}
 
 });

@@ -41,15 +41,16 @@
 		<div id="game-container" class="container">
 			<div class="row">
 				<div class="col-12">
-					<div class="jumbotron text-center">
+					<div class="text-center">
 						<h4>HangMan Game (eventually more here)</h4>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-6">
-					<div id="app-status" class="card">
-						<p>Fun message here</p>
+					<div  class="card character-quote">
+						<div class="card-blockquote" id="quote-card">Fun quote here</div>
+						<div class="blockquote-footer" id="quote-footer">Anonymous</div>
 					</div>
 				</div>
 				<div class="col-6">
@@ -58,36 +59,30 @@
 							<p>Press any key to start a game</p>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row active-game">
 						<div class="col-12">
 							<p>Wins: <span id="wins-count">0</span></p>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row active-game">
 						<div class="card" id="current-word-card">
 							<div class="card-header">Current Word</div>
-								<div class="card-body">
-
-								</div>
+							<div class="card-body">
 							</div>
 						</div>
-						<div class="card" id="current-word-card">
-							<div class="card-header">Current Word</div>
-								<div class="card-body">
-
-								</div>
-							</div>
-						</div>
-						<div class="card" id="current-word-card">
-							<div class="card-header">Current Word</div>
-								<div class="card-body">
-
-								</div>
+					</div>
+					<div class="row active-game">
+						<div class="card" id="guesses">
+							<div class="card-header">Guesses Left: <span id="guesses-left"></span></div>
+							<div class="card-body">
+								<p>Guessed Letters</p>
+								<p id="guessed-letters"></p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 
 
 
@@ -97,7 +92,9 @@
 
 		<!-- End of site content - Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
