@@ -1,18 +1,38 @@
+
+#top-border {
+	margin: 85px auto 0 auto;
+	height: 50px;
+	/*border: 3px solid #ddd;*/
+	/*padding: 40px;*/
+	background: url(../images/bg_top.png) 100% top repeat-x;
+}
+
 #game-container {
-	margin: 120px auto;
+	/*margin: 120px auto;*/
+	margin: 30px auto;
 	border: 3px solid #ddd;
 	padding: 40px;
 }
 
 
-.active-game {
-	/*visibility: hidden;*/
-	display: none;
+html {
+	/*background: #000;*/
+
 }
 
-#current-word-card .card-body {
-	letter-spacing: 1em;
+body {
+	/*background: url(../../background.jpg) 100% top no-repeat;*/
+	/*background: url(../../background.jpg);*/
+	/*background-size: 100% 100%;*/
+
 }
+
+.active-game {
+	/*visibility: hidden;*/
+	/*display: none;*/
+	margin-top: 20px;
+}
+
 
 #guessed-letters {
 	letter-spacing: 0.1em;
@@ -36,4 +56,38 @@
 .card-blockquote {
 	font-style: italic;
 
+}
+
+.masked-letter, .unmasked-letter {
+	border-bottom: 3px solid #555;
+}
+
+
+/*  styling for div holding hangman word */
+
+
+
+#current-word-card .card-body {
+	/*letter-spacing: 1em;*/
+}
+
+.word-div span {
+	width: 5px;
+	text-align: center;
+	margin: 10px 5px;
+	padding: 0 5px;
+	font-family: 'Lucida Console', Monaco, monospace
+}
+
+
+/*  help with fading in bootstrap alerts from https://stackoverflow.com/questions/7676356/can-twitter-bootstrap-alerts-fade-in-as-well-as-out*/
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.45s linear;
+  -moz-transition: opacity 0.45s linear;
+  -o-transition: opacity 0.45s linear;
+  transition: opacity 0.45s linear;
+}
+.fade.in {
+  opacity: 1;
 }

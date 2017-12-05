@@ -2,22 +2,28 @@ const defaultTheme = "tolkien";
 const defaultMaxGuesses = 10;
 
 
+var EventEnum = {
+	NEWGAME: "NEWGAME",
+	GAMEWIN: "GAMEWIN",
+	GAMELOSE: "GAMELOSE"
+}
+
 var OutcomeEnum = {
 	WIN: 1,
-	LOSS: 2,
+	LOSE: 2,
 	INPROGRESS: 3
 };
 
 
 var quotesForWords = {
 	"Amon Sul": {
-		quote: "But long before, in the first days of the North Kingdom, they built a great watch-tower on Weathertop, Amon Sûl they called it. It was burned and broken, and nothing remains of it now but a tumbled ring, like a rough crown on the old hill’s head. Yet once it was tall and fair. It is told that Elendil stood there watching for the coming of Gil-galad out of the West, in the days of the Last Alliance.",
+		quote: "But long before, in the first days of the North Kingdom, they built a great watch-tower on Weathertop, Amon Sûl they called it. It was burned and broken, and nothing remains of it now but a tumbled ring, like a rough crown on the old hill’s head. Yet once it was tall and fair. It is told that Elendil stood there watching for the coming of Gil-Galad out of the West, in the days of the Last Alliance.",
 		quoteSource: "Aragorn",
 		aliases: ["Weathertop"],
 		hints: ["Also the place where Frodo was stabbed by the Witch-King."]
 	},
 	"Gil-Galad": {
-		quote: 	`Gil-galad was an Elven-king.
+		quote: 	`Gil-Galad was an Elven-king.
 				Of him the harpers sadly sing;
 				the last whose realm was fair and free
 				between the Mountains and the Sea.
@@ -31,7 +37,7 @@ var quotesForWords = {
 				and where he dwelleth none can say;
 				for into darkness fell his star
 				in Mordor where the shadows are.`,
-		quoteSource: "The Fall of Gil-galad, as translated by Bilbo Baggins",
+		quoteSource: "The Fall of Gil-Galad, as translated by Bilbo Baggins",
 		aliases: [],
 		hints: [
 			'Ruled as High King of the Noldor for over 3,500 years',
@@ -99,76 +105,6 @@ var quotesForWords = {
 		hints: ["Father of Feanor", "Was one of the three ambassadors chosen by Orome who should go to Valinor and speak for their people"]
 		},
 
-	"Ingwe": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Olwe": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Melkor": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Morgoth": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Grond": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Angband": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Silmaril": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Utumno": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Galadriel": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-
-	"Turgon": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
 
 	"Ungoliant": {
 		quote: "The Eldar knew not whence she came; but some have said that in ages long before she descended from the darkness that lies about Arda, when Melkor first looked down in envy upon the Kingdom of Manwë, and that in the beginning she was one of those that he corrupted to his service.",
@@ -177,40 +113,92 @@ var quotesForWords = {
 		hints: []
 		},
 
-	"Telperion": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Laurelin": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Ringil": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
-
-	"Amen Hen": {
-		quote: "",
-		quoteSource: "",
-		aliases: [],
-		hints: []
-		},
 
 	"Nazgul": {
 		quote: "They are the Nazgul, Ringwraiths, neither living or dead. At all times they feel the presence of the ring...drawn to the power of the one..they will never stop hunting you.",
 		quoteSource: "Aragorn explaining the nazgûl to Frodo, Pippin, Merry and Sam",
 		aliases: ["Ringwraiths", "The Nine", "The Fallen Kings", "Black Riders", "Nunbolg", "Ulairi"],
 		hints: []
-		}
+		},
+
+
+	"Ingwe": {
+		quote: "The smallest host and the first to set forth was led by Ingwë, the most high lord of all the Elvish race. He entered into Valinor and sits at the feet of the Powers, and all Elves revere his name; but he came never back, nor looked again upon Middle-earth.",
+		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
+		aliases: [],
+		hints: []
+	},
+
+
+	"Melkor": {
+		quote: "and thus did Melkor breed the hideous race of the Orcs in envy and mockery of the Elves, of whom they were afterwards the bitterest foes. For the Orcs had life and multiplied after the manner of the Children of Ilúvatar; and naught that had life of its own, nor the semblance of life, could ever Melkor make since his rebellion in the Ainulindalë before the Beginning: so say the wise.",
+		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
+		aliases: [],
+		hints: []
+	},
+
+	"Morgoth": {
+		quote: "I am the Elder King: Melkor, first and mightiest of all the Valar, who was before the world and made it. The shadow of my purpose lies upon Arda, and all that is in it bends slowly and surely to my will.",
+		quoteSource: "Quenta Silmarillion: The Words of Hurin and Morgoth.",
+		aliases: [],
+		hints: []
+	},
+
+
+	"Grond": {
+		quote: "Then Morgoth hurled aloft Grond, the Hammer of the Underworld, and swung it down like a bolt of thunder. But Fingolfin sprang aside, and Grond rent a mighty pit in the earth, whence smoke and fire darted.",
+		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
+		aliases: [],
+		hints: []
+	},
+
+
+	"Angband": {
+		quote: "And Melkor made also a fortress and armoury not far from the north-western shores of the sea, to resist any assault that might come from Aman. That stronghold was commanded by Sauron, lieutenant of Melkor; and it was named Angband.",
+		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
+		aliases: [],
+		hints: []
+	},
+
+
+	"Silmaril": {
+		quote: "And the inner fire of the Silmarils Fëanor made of the blended light of the Trees of Valinor, which lives in them yet, though the Trees have long withered and shine no more.",
+		quoteSource: "Quenta Silmarillion: Of the Silmarils and the Unrest of the Noldor",
+		aliases: [],
+		hints: []
+	},
+
+
+	"Utumno": {
+		quote: "Now Melkor began the delving and building of a vast fortress, deep under Earth, beneath dark mountains where the beams of Illuin were cold and dim. That stronghold was named Utumno.",
+		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
+		aliases: [],
+		hints: []
+	},
+
+
+
+	"Galadriel": {
+		quote: "A sister they had, Galadriel, most beautiful of all the house of Finwë; her hair was lit with gold as though it had caught in a mesh the radiance of Laurelin.",
+		quoteSource: "Quenta Silmarillion: Of Eldamar and the Princes of the Eldalië",
+		aliases: [],
+		hints: []
+	},
+
+	"Luthien": {
+		quote: "The song of Lúthien before Mandos was the song most fair that ever in words was woven, and the song most sorrowful that ever the world shall ever hear. . . and Mandos was moved to pity, who never before was so moved, nor has been since.",
+		quoteSource: "Quenta Silmarillion: Of Beren and Lúthien",
+		aliases: [],
+		hints: []
+	},
+
+
+	"Ringil": {
+		quote: "But Fingolfin gleamed beneath it as a star; for his mail was overlaid with silver, and his blue shield was set with crystals; and he drew his sword Ringil, that glittered like ice.",
+		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
+		aliases: [],
+		hints: []
+	}
 }
 
 
@@ -252,14 +240,14 @@ var HangmanGame = class {
 	get maskedString() {
 		console.log("game is in maskedString getter()")
 		var game = this;
-		if (game.outcome === OutcomeEnum.WIN || game.outcome === OutcomeEnum.LOSS ) {
+		if (game.outcome === OutcomeEnum.WIN || game.outcome === OutcomeEnum.LOSE ) {
 			return game.word;
 		}
 		else {
 			let maskedString = game.word.split("").map(function(letter) {
 				let lcLetter = letter.toLowerCase();
 				// console.log("checking letter", letter, "word:", game.word);
-				return ((typeof game.userGuesses[lcLetter] !== "undefined") || !(/[a-z]/.test(lcLetter)) ? letter : "_") ;
+				return ((typeof game.userGuesses[lcLetter] !== "undefined") || !(/[a-z]/.test(lcLetter)) ? letter : "*") ;
 			}).join("");
 			return maskedString;
 			// return game.word.split("").map(letter => "_").join("");
@@ -273,12 +261,13 @@ var HangmanGame = class {
 		if (guessedWord !== this.word) {
 			this.wrongWholeWordGuesses++;
 			if (this.checkForLoss()) {
-				this.outcome = OutcomeEnum.LOSS;
+				this.outcome = OutcomeEnum.LOSE;
 			}
 			return false;
 		}
 		else {
 			this.outcome = OutcomeEnum.WIN;
+			var e = jQuery.event(EventEnum.GAMEWIN);
 			return true;
 		}
 
@@ -306,7 +295,7 @@ var HangmanGame = class {
 				else {
 					this.wrongGuesses[guessLowerCase] = guessLowerCase;
 					if (this.checkForLoss()) {
-						this.outcome = OutcomeEnum.LOSS;
+						this.outcome = OutcomeEnum.LOSE;
 
 					}
 				}
@@ -355,8 +344,7 @@ var HangmanApp = class {
 
 	getPossibleWords(theme) {
 		console.log("Loading possible words");
-		let words = ["Gandalf", "Manwe", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Ingwe", "Olwe", "Melkor", "Morgoth", "Grond", "Angband", "Silmaril", "Utumno", "Elrond", "Gil-Galad", "Galadriel", "Fingon", "Turgon", "Ungoliant", "Telperion", "Laurelin", "Ringil", "Amon Sul", "Amen Hen", "Nazgul"];
-		// let words = ["Feanor", "Fingolfin", "Elrond", "Gil-Galad", "Fingon", "Turgon", "Ungoliant", "Amon Sul", "Nazgul"];
+		let words = ["Gandalf", "Manwe", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Ingwe", "Melkor", "Morgoth", "Grond", "Angband", "Silmaril", "Utumno", "Elrond", "Gil-Galad", "Galadriel", "Fingon", "Ungoliant", "Ringil", "Amon Sul", "Nazgul", "Luthien"];
 		return words;
 	}
 
@@ -373,17 +361,15 @@ var HangmanApp = class {
 		}
 
 		this.word = possibleWordsArray[Math.floor(Math.random()*possibleWordsArray.length)];
-
+		// this.word = "Amon Sul"
 		this.game = new HangmanGame(this.word, this.maxGuesses);
 		//remove word from collection of unused words.
 		if (typeof this.unusedWords[this.word] !== "undefined") {
 			delete this.unusedWords[this.word];
 		}
 
-		// $("#app-status p").text("New game in progress");
-		// $("#app-status").empty().append("<p>New game in progress.</p>");
-		// $("#app-status").empty().append("<div class='card-header'>New game in progress.</div>");
 		$("#app-status .card-header").text("New game in progress.");
+		$("#app-status .card-header").removeClass("alert-success alert-danger alert-info alert-warning in").addClass("alert alert-info fade in")
 	}
 
 	get maskedString() {
@@ -408,6 +394,73 @@ var HangmanApp = class {
 		return this.game.guessesLeft;
 	}
 
+	handleWin() {
+		var app = this;
+		// $("#app-status").empty().append("<div class='card-header'>You Win!!</div>");
+		$("#app-status .card-header").text("You Win!!");
+		$("#app-status .card-header").addClass("out").removeClass("alert-success alert-danger alert-info alert-warning in out").addClass("alert alert-success fade in")
+		// $(this).effect("highlight", {}, 3000);
+		app.wins++;
+		$("#wins-count").addClass("wins-count-updating").fadeOut("slow", function() {
+			$("#wins-count").text(app.wins).fadeIn("slow", function() {
+					$("#wins-count").removeClass("wins-count-updating");
+			});
+		});
+	}
+
+	handleLoss() {
+		var app = this;
+		// $("#app-status").empty().append("<p>Sorry. You lossed this one. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></p>");
+		// $("#app-status").empty().append("<div class='card-header'>Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
+		$("#app-status .card-header").html("Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
+		$("#app-status .card-header").removeClass("alert-success alert-danger alert-info alert-warning in").addClass("alert alert-danger fade in")
+		// console.log(app.maskedString);
+	}
+
+	updateQuote() {
+		var app = this;
+		if (typeof quotesForWords[app.word] !== "undefined") {
+
+			// get new quote
+			var blockQuote = $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[app.word].quote});
+			//if there are line breaks "\n" in quote text, replace with <br>
+			blockQuote.html(blockQuote.html().replace(/\n/g,'<br/>'));
+
+			// get quote source
+			var quoteSource = $("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[app.word].quoteSource});
+
+			//update #character-quote element.
+			$("#character-quote").empty().append(blockQuote).append("<br>").append(quoteSource)
+				// $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[app.word].quote})).
+				// append($("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[app.word].quoteSource}));
+
+				//if there are line breaks "\n" in quote text, replace with <br>
+
+			// $("#quote-text").text(quotesForWords[app.word].quote);
+			// $("#quote-footer").text(quotesForWords[app.word].quoteSource);
+		}
+		else {
+			// no quote for this word.
+			$("#character-quote").empty();
+			// $("#quote-text").text("");
+			// $("#quote-footer").text("");
+		}
+	}
+
+	prepareWordDiv() {
+		var app = this;
+		console.log("maskedString: " + app.maskedString);
+		var wordSpans = app.maskedString.split("").map(function(letter) {
+			let spanClass = letter === "*" ? "masked-letter" : (/[a-z]/.test(letter.toLowerCase())) ? "unmasked-letter" : "no-underline";
+			if (letter === "*") letter = "&nbsp"
+			return "<span class=" + spanClass +">"+ letter + "</span>";
+		}).join("");
+
+
+		var wordDiv = ("<div class='word-div'>" + wordSpans + "</div>");
+		return wordDiv;
+	}
+
 	showGame() {
 		// Actually draw game on page.
 		var app = this;
@@ -416,67 +469,26 @@ var HangmanApp = class {
 		// console.log("guessesLeft: " + guessesLeft);
 		$("#guesses-left").text(app.guessesLeft);
 		console.log(app);
-		console.log("maskedString: " + app.maskedString);
-		var wordSpans = app.maskedString.split("").map(function(letter) {
-			let spanClass = letter !== "_" ? "masked" : letter !== " " ? "unmasked" : "space";
-			return "<span class=" + spanClass +">"+ letter + "</span>";
-		}).join("");
+		var wordDiv = this.prepareWordDiv()
+
 		// console.log(wordSpans);
-		$("#current-word-card .card-body").html(wordSpans);
+		$("#current-word-card .card-body").html(wordDiv);
 		// console.log("hi", Object.keys(this.game.userGuesses).toString());
 		$("#guessed-letters").text(Object.keys(this.game.userGuesses).toString().split(",").join(" "));
 
 		if (app.game.outcome !== OutcomeEnum.INPROGRESS) {
 			if (app.game.outcome === OutcomeEnum.WIN) {
-				// $("#app-status").empty().append("<div class='card-header'>You Win!!</div>");
-				$("#app-status .card-header").text("You Win!!");
-				app.wins++;
-				$("#wins-count").addClass("wins-count-updating").fadeOut("slow", function() {
-					$("#wins-count").text(app.wins).fadeIn("slow", function() {
-							$("#wins-count").removeClass("wins-count-updating");
-					});
-				});
-
-				// $("#wins-count").text(app.wins);
-				// $("#wins-count").fadeIn("slow");
+				$("body").trigger(EventEnum.GAMEWIN);
+				// app.handleWin();
 			}
-			else if (app.game.outcome === OutcomeEnum.LOSS) {
-				// $("#app-status").empty().append("<p>Sorry. You lossed this one. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></p>");
-				// $("#app-status").empty().append("<div class='card-header'>Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
-				$("#app-status .card-header").text("Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
-				// console.log(app.maskedString);
-
+			else if (app.game.outcome === OutcomeEnum.LOSE) {
+				// app.handleLoss();
+				$("body").trigger(EventEnum.NEWLOSE);
 			}
-
-			if (typeof quotesForWords[app.word] !== "undefined") {
-
-				// get new quote
-				var blockQuote = $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[app.word].quote});
-				//if there are line breaks "\n" in quote text, replace with <br>
-				blockQuote.html(blockQuote.html().replace(/\n/g,'<br/>'));
-
-				// get quote source
-				var quoteSource = $("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[app.word].quoteSource});
-
-				//update #character-quote element.
-				$("#character-quote").empty().append(blockQuote).append("<br>").append(quoteSource)
-					// $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[app.word].quote})).
-					// append($("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[app.word].quoteSource}));
-
-					//if there are line breaks "\n" in quote text, replace with <br>
-
-				// $("#quote-text").text(quotesForWords[app.word].quote);
-				// $("#quote-footer").text(quotesForWords[app.word].quoteSource);
-			}
-			else {
-				// no quote for this word.
-				$("#character-quote").empty();
-				// $("#quote-text").text("");
-				// $("#quote-footer").text("");
-			}
+			this.updateQuote();
 		}
 
-		$(".active-game").show();
+		// $(".active-game").show();
 	}
 }
 
@@ -485,12 +497,19 @@ var HangmanApp = class {
 
 $(document).ready(function() {
 	var app = new HangmanApp(defaultMaxGuesses, defaultTheme);
+	// var evtNewGame = $("body").event(EventEnum.NEWGAME);
+	// var evtGameLoss = jQuery.event(EventEnum.GAMELOSE);
+	// var evtGameWin = jQuery.event(EventEnum.GAMEWIN);
+
+
+
 
 	document.onkeyup = function(event) {
 		// if game is not in progress, then any key starts new game.
 		if (typeof app.game === "undefined" || app.game.outcome !== OutcomeEnum.INPROGRESS ) {
-			app.startGame();
-			app.showGame()
+			$("body").trigger(EventEnum.NEWGAME);
+			// app.startGame();
+			// app.showGame()
 		}
 		else if (/^Key[A-Z]$/.test(event.code)) {
 			console.log(event)
@@ -499,5 +518,21 @@ $(document).ready(function() {
 		}
 
 	}
+
+	$("body").on(EventEnum.NEWGAME, function(e) {
+		console.log("Detected NEWGAME event signal")
+		app.startGame();
+		app.showGame();
+	});
+
+	$("body").on(EventEnum.GAMEWIN, function(e) {
+		app.handleWin();
+	});
+
+	$("body").on(EventEnum.GAMELOSE, function(e) {
+		app.handleLoss();
+	});
+
+
 
 });
