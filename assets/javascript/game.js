@@ -529,7 +529,11 @@ var HangmanApp = class {
 				});
 			});
 			if (typeof itemData.audio !== "undefined") {
-				audioElement.setAttribute("src", itemData.audio);
+				var audioURL = itemData.audio;
+				if (/github\.io/.test(document.URL) {
+					audioURL = "https://raw.githubusercontent.com/semlak/Hangman-Game/master/" + audioURL;
+				}
+				audioElement.setAttribute("src", audioURL);
 				audioElement.play();
 			}
 		}
