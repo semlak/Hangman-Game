@@ -1,12 +1,17 @@
 const defaultTheme = "tolkien";
 const defaultMaxGuesses = 10;
 const maxHeight = 540;
+const delayAfterGameOver = 3000;  //3 seconds
+const delayToStartNewGame = 1000;
+
+var audioElement  // will be set later
 
 
 const EventEnum = {
 	NEWGAME: "NEWGAME",
 	GAMEWIN: "GAMEWIN",
-	GAMELOSE: "GAMELOSE"
+	GAMELOSE: "GAMELOSE",
+	GAMEOVER: "GAMEOVER"
 }
 
 const OutcomeEnum = {
@@ -16,7 +21,7 @@ const OutcomeEnum = {
 };
 
 
-const quotesForWords = {
+const GameData = {
 	"Amon Sul": {
 		quote: "But long before, in the first days of the North Kingdom, they built a great watch-tower on Weathertop, Amon Sûl they called it. It was burned and broken, and nothing remains of it now but a tumbled ring, like a rough crown on the old hill’s head. Yet once it was tall and fair. It is told that Elendil stood there watching for the coming of Gil-Galad out of the West, in the days of the Last Alliance.",
 		quoteSource: "Aragorn",
@@ -56,21 +61,23 @@ const quotesForWords = {
 		image: "./assets/images/elrond.jpg"
 	},
 	"Fingolfin": {
-		quote: "Thus he came alone to Angband’s gates, and he sounded his horn, and smote once more upon the brazen doors, and challenged Morgoth to come forth to single combat.\n\nAnd Morgoth came.",
+		quote: "For a great madness of rage was upon him, so that his eyes shone like the eyes of the Valar. Thus he came alone to Angband’s gates, and he sounded his horn, and smote once more upon the brazen doors, and challenged Morgoth to come forth to single combat.\n\nAnd Morgoth came.",
 		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
 		aliases: [],
 		hints: [
 			"Was the first High-King of the Noldor after the rising of the Sun and the Moon",
 			"Died in single combat against Morgoth"
 		],
-		image: "./assets/images/fingolfin.png"
+		image: "./assets/images/fingolfin.png",
+		audio: "./assets/audio/fingolfin.mp3"
 	},
 	"Fingon": {
-		quote: "Then Gothmog hewed him with his black axe, and a white flame sprang up from the helm of Fingon as it was cloven.",
+		quote: "Then he turned upon Fingon. That was a grim meeting. At last Fingon stood alone with his guard dead about him; and he fought with Gothmog, until another Balrog came behind and cast a thong of fire about him. Then Gothmog hewed him with his black axe, and a white flame sprang up from the helm of Fingon as it was cloven. Thus fell the High King of the Noldor.",
 		quoteSource: "Quenta Silmarillion: Of the Fifth Battle: Nirnaeth Arnoediad",
 		aliases: [],
 		hints: [],
-		image: "./assets/images/fingon.jpg"
+		image: "./assets/images/fingon.jpg",
+		audio: "./assets/audio/fingon.mp3"
 
 	},
 
@@ -87,7 +94,8 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion: Of the Beginning of Days",
 		aliases: ["King of Arda, Lord of the Breath of Arda, King of the Valar, Elder King, Lord of the West, Lord of Aman"],
 		hints: ["name means \"Blessed one\" or \"blessed person", "Ruler of Arda"],
-		image: "./assets/images/manwe.jpg"
+		image: "./assets/images/manwe.jpg",
+		audio: "./assets/audio/manwe.mp3"
 		},
 
 
@@ -96,7 +104,8 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion:  Of the Sun and Moon and the Hiding of Valinor",
 		aliases: ["Curufinwë", "Fëanáro"],
 		hints: ["Creator of the Silmarils"],
-		image: "./assets/images/feanor.jpg"
+		image: "./assets/images/feanor.jpg",
+		audio: "./assets/audio/feanor.mp3"
 		},
 
 	"Finarfin": {
@@ -104,7 +113,8 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion: Of the Flight of the Noldor",
 		aliases: [],
 		hints: [],
-		image: "./assets/images/finarfin.jpg"
+		image: "./assets/images/finarfin.jpg",
+		audio: "./assets/audio/finarfin.mp3"
 		},
 
 	"Finwe": {
@@ -112,16 +122,18 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion: Of the Flight of the Noldor",
 		aliases: ["King of the Noldor"],
 		hints: ["Father of Feanor", "Was one of the three ambassadors chosen by Orome who should go to Valinor and speak for their people"],
-		image: "./assets/images/finwe.jpg"
+		image: "./assets/images/finwe.jpg",
+		audio: "./assets/audio/finwe.mp3"
 		},
 
 
 	"Ungoliant": {
-		quote: "The Eldar knew not whence she came; but some have said that in ages long before she descended from the darkness that lies about Arda, when Melkor first looked down in envy upon the Kingdom of Manwë, and that in the beginning she was one of those that he corrupted to his service.",
+		quote: "There in Avathar, secret and unknown, Ungoliant had made her abode. The Eldar knew not whence she came; but some have said that in ages long before she descended from the darkness that lies about Arda, when Melkor first looked down in envy upon the Kingdom of Manwë, and that in the beginning she was one of those that he corrupted to his service.",
 		quoteSource: "Quenta Silmarillion: Of the Darkening of Valinor",
 		aliases: ["Ungweliantë, Spider of Night, Ungweliant, Wirilómë, Gloomweaver, Móru, Primeval Night, Night"],
 		hints: [],
-		image: "./assets/images/Melkor-and-Ungoliant.jpg"
+		image: "./assets/images/Melkor-and-Ungoliant.jpg",
+		audio: "./assets/audio/ungoliant.mp3"
 		},
 
 
@@ -148,7 +160,8 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
 		aliases: [],
 		hints: [],
-		image: "./assets/images/Melkor-and-Ungoliant.jpg"
+		image: "./assets/images/Melkor-and-Ungoliant.jpg",
+		audio: "./assets/audio/melkor.mp3"
 	},
 
 	"Morgoth": {
@@ -165,7 +178,8 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
 		aliases: [],
 		hints: [],
-		image: "./assets/images/grond.jpg"
+		image: "./assets/images/grond.jpg",
+		audio: "./assets/audio/grond.mp3"
 	},
 
 
@@ -219,7 +233,8 @@ const quotesForWords = {
 		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
 		aliases: [],
 		hints: [],
-		image: "./assets/images/ringil.jpg"
+		image: "./assets/images/ringil.jpg",
+		audio: "./assets/audio/ringil.mp3"
 	}
 }
 
@@ -246,56 +261,27 @@ var HangmanGame = class {
 
 	}
 
-
-	// get getGuesses() {
-	// 	console.log("game is in getGuesses()")
-	// 	return this.userGuesses;
-	// }
-
 	get guessesLeft() {
-		console.log("game is in guessesLeft()")
 		return this.maxGuesses - this.wrongWholeWordGuesses - Object.keys(this.wrongGuesses).length;
 	}
 
 
 	get maskedString() {
-		console.log("game is in maskedString getter()")
 		var game = this;
+		// if the game is over, just return the whole word. Otherwise, return the masked word.
 		if (game.outcome === OutcomeEnum.WIN || game.outcome === OutcomeEnum.LOSE ) {
 			return game.word;
 		}
 		else {
 			let maskedString = game.word.split("").map(function(letter) {
 				let lcLetter = letter.toLowerCase();
-				// console.log("checking letter", letter, "word:", game.word);
 				return ((typeof game.userGuesses[lcLetter] !== "undefined") || !(/[a-z]/.test(lcLetter)) ? letter : "*") ;
 			}).join("");
 			return maskedString;
-			// return game.word.split("").map(letter => "_").join("");
 		}
-	}
-
-	guessWord(guessedWord) {
-		console.log("game is in guessWord()")
-		//add all letters to userGuesses so that masked word will show.
-		//This will count all letters that were previously not guessed as single guesses.
-		if (guessedWord !== this.word) {
-			this.wrongWholeWordGuesses++;
-			if (this.checkForLoss()) {
-				this.outcome = OutcomeEnum.LOSE;
-			}
-			return false;
-		}
-		else {
-			this.outcome = OutcomeEnum.WIN;
-			var e = jQuery.event(EventEnum.GAMEWIN);
-			return true;
-		}
-
 	}
 
 	guessLetter(guess) {
-		console.log("in game.guessLetter. User guessed " + guess);
 		if (this.outcome === OutcomeEnum.INPROGRESS) {
 			let guessLowerCase = guess.toLowerCase();
 			if (typeof (this.userGuesses[guessLowerCase]) === "undefined") {
@@ -322,8 +308,6 @@ var HangmanGame = class {
 				}
 
 			}
-			// return true;
-			// return this.maskedString;
 			return true;
 		}
 		else {
@@ -332,7 +316,6 @@ var HangmanGame = class {
 	}
 
 	checkForWin() {
-		console.log(this.rightGuesses, Object.keys(this.rightGuesses).length, this.lettersInWord);
 		return Object.keys(this.rightGuesses).length >= Object.keys(this.lettersInWord).length;
 	}
 
@@ -365,26 +348,44 @@ var HangmanApp = class {
 
 
 		$("body").on(EventEnum.NEWGAME, function(e) {
-			// console.log("Detected NEWGAME event signal")
 			me.startGame();
 			me.showGame();
 		});
 
-		$("body").on(EventEnum.GAMEWIN, function(e) {
-			me.handleWin();
+		// $("body").on(EventEnum.GAMEWIN, function(e) {
+		// 	me.handleWin();
+		// });
+
+		// $("body").on(EventEnum.GAMELOSE, function(e) {
+		// 	me.handleLoss();
+		// });
+
+		$("body").on(EventEnum.GAMEOVER, function(e) {
+			if (me.game.outcome === OutcomeEnum.WIN) {
+				me.handleWin();
+			}
+			else {
+				me.handleLoss();
+			}
+
+			// Wait a few seconds, and then update app-status to say new game is starting
+			setTimeout(function() {
+				// $("#app-status")
+				$("#app-status .card-header").removeClass("alert-success alert-danger alert-info alert-warning in").addClass("alert alert-warning fade in").text("Starting new game...");
+				setTimeout(function() {
+					$("body").trigger(EventEnum.NEWGAME);
+				}, delayToStartNewGame);
+			}, delayAfterGameOver);
+
 		});
 
-		$("body").on(EventEnum.GAMELOSE, function(e) {
-			me.handleLoss();
-		});
 
 	}
 
 
 	getPossibleWords(theme) {
-		console.log("Loading possible words");
-		let words = ["Gandalf", "Manwe", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Ingwe", "Melkor", "Morgoth", "Grond", "Angband", "Silmaril", "Utumno", "Elrond", "Gil-Galad", "Galadriel", "Fingon", "Ungoliant", "Ringil", "Amon Sul", "Nazgul", "Luthien"];
-		// let words = ["Gandalf", "Manwe", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Amon Sul"];
+		// convert the "keys" of GameData object into an array. They are the possible hangman words
+		let words = Object.keys(GameData);
 		return words;
 	}
 
@@ -407,10 +408,8 @@ var HangmanApp = class {
 
 
 		this.word = filteredUnusedWords[Math.floor(Math.random()*filteredUnusedWords.length)];
+
 		// this.word = "Fingolfin";
-		// this.word = "Melkor";
-		// this.word = "Gil-Galad";
-		// me.updateQuote();
 		this.game = new HangmanGame(this.word, this.maxGuesses);
 		this.lastWordUsed = this.word;
 		//We don't remove word from unusedWord list yet, because we only remove when player wins on that word
@@ -436,10 +435,6 @@ var HangmanApp = class {
 
 	}
 
-	guessWord(guessedWord) {
-		return this.game.guessWord(guessedWord);
-	}
-
 	get guessesLeft() {
 		return this.game.guessesLeft;
 	}
@@ -448,7 +443,6 @@ var HangmanApp = class {
 		var me = this;
 		// remove the word just completed from the array of unused words (used filter)
 		this.unusedWords = this.unusedWords.filter( word => word !== me.word);
-		// $("#app-status").empty().append("<div class='card-header'>You Win!!</div>");
 		$("#app-status .card-header").text("You Win!!");
 		$("#app-status .card-header").addClass("out").removeClass("alert-success alert-danger alert-info alert-warning in out").addClass("alert alert-success fade in")
 		// $(this).effect("highlight", {}, 3000);
@@ -462,48 +456,48 @@ var HangmanApp = class {
 
 	handleLoss() {
 		var me = this;
-		// $("#app-status").empty().append("<p>Sorry. You lossed this one. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></p>");
-		// $("#app-status").empty().append("<div class='card-header'>Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
 		$("#app-status .card-header").html("Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
 		$("#app-status .card-header").removeClass("alert-success alert-danger alert-info alert-warning in").addClass("alert alert-danger fade in")
-		// console.log(me.maskedString);
 	}
 
 	updateQuote() {
-		var me = this;
-		if (typeof quotesForWords[me.word] !== "undefined") {
-			var itemData = quotesForWords[me.word]
+		// okay. this function is a bit of a mess. It removes the old quote and picture and updates to a new one.
+		// All my images and quotes are of different lengths, and so try to keep the entire container a reasonable height,
+		// I add them to the div, and make it visible momentarily, get the element heights, and then hide, resize, and finally fade in.
+		// I don't seem to see any flicker doing this.
+		// I couldn't seem to manage to get things to work relying on just bootstrap.
 
-			// get new quote
+		var me = this;
+		// only try to update if info for the word is not undefined.
+		if (typeof GameData[me.word] !== "undefined") {
+			var itemData = GameData[me.word]
+
 			var blockQuote = $("<div>", {class: "card-blockquote", id: "quote-text", text: "\"" + itemData.quote + "\""});
 			//if there are line breaks "\n" in quote text, replace with <br>
 			blockQuote.html(blockQuote.html().replace(/\n/g,'<br/>'));
 
 			// get quote source
-
 			var quoteSource = $("<div>", {class: "blockquote-footer", id: "quote-source", text: itemData.quoteSource});
-			var cardImage = $("<img>", {class: "card-image-bottom img-fluid", id: "word-image", src: itemData.image, alt: me.word});
+
+			// get quote image
+			var quoteImage = $("<img>", {class: "card-image-bottom img-fluid", id: "quote-image", src: itemData.image, alt: me.word});
 			//update #character-quote element.
+
+			// create new elements
 			var cardBody = ("<div>", {class: "card-body", id: "character-quote"});
 
-			// to fade in element, help from https://stackoverflow.com/questions/4687579/append-an-element-with-fade-in-effect-jquery
-			// $("#word-info-card").empty();
 			$("#word-info-card").fadeOut(1000, function() {
-				// console.log("starting callback");
-				// $("#word-info-card").empty();
-				// remove any of the manual css settings from jquery
+				// remove any previously set css settings from jquery
 				$("#image-container").width("");
 				$("#image-container").height("");
 				$("#character-quote div").css("line-height", "");
 
 				$("#character-quote").empty();
-				// $("#word-image").remove();
 				$("#image-container").remove();
 				$("#character-quote").append(blockQuote).append("<br>").append(quoteSource);
 
-				$("#word-info-card").append(cardBody, $("<div id='image-container'>").append(cardImage)).fadeIn(0, function() {
+				$("#word-info-card").append(cardBody, $("<div id='image-container'>").append(quoteImage)).fadeIn(0, function() {
 					// the combined height of the quote and image might be too big. Check the height and resize image if needed.
-					console.log("current card height", $("#word-info-card").outerHeight() );
 					if ($("#word-info-card").outerHeight() > maxHeight) {
 
 						var quoteHeight = $("#character-quote").outerHeight();
@@ -515,120 +509,117 @@ var HangmanApp = class {
 						}
 
 						// It seems the best way to change the height is by reducing container width, since using responsive image
-						var imageContainerHeight = $("#word-info-card").outerHeight() - quoteHeight
-
-						var imageContainerWidth = $("#image-container").outerWidth();
+						var imageHeight = $("#word-info-card").outerHeight() - quoteHeight
+						var imageWidth = $("#image-container").outerWidth();
 						var newImageHeight = maxHeight - quoteHeight;
-						var newImageWidth = imageContainerWidth / imageContainerHeight * newImageHeight;
-						console.log("quoteHeight", quoteHeight);
-						console.log("old image width and height:", imageContainerWidth, imageContainerHeight);
-						console.log("trying to set new width and height of ", newImageWidth, newImageHeight);
+						var newImageWidth = imageWidth / imageHeight * newImageHeight;
+
 						// only peform change if new width less than old.
-						if (newImageWidth < imageContainerWidth) {
-							//change container width to appropriate height, but also set height of image
+						if (newImageWidth < imageWidth) {
+							//change container width to appropriate height, but also set height of image (only an issue for for tall images)
 							$("#image-container").width(newImageWidth);
-							$("#word-image").height(newImageHeight);
+							$("#quote-image").height(newImageHeight);
 						}
 					}
+					// did all this while the images were visible. However, hopefully so quick user won't notice. Fade Out
 					$("#word-info-card").fadeOut(0, function() {
+						// finally do nice fadeIn
 						$("#word-info-card").fadeIn(500);
 					});
-
-
 				});
 			});
-			// cardBody = $("word")
-			// cardBody.append(blockQuote).append("<br>").append(quoteSource);
-
-			//this keeps adding to the card while it is fading in.
-
-			// append(image);
-			// $("#character-quote").append()
-				// $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[me.word].quote})).
-				// append($("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[me.word].quoteSource}));
-
-				//if there are line breaks "\n" in quote text, replace with <br>
-
-			// $("#quote-text").text(quotesForWords[me.word].quote);
-			// $("#quote-footer").text(quotesForWords[me.word].quoteSource);
+			if (typeof itemData.audio !== "undefined") {
+				audioElement.setAttribute("src", itemData.audio);
+				audioElement.play();
+			}
 		}
 		else {
-			// no quote for this word.
-			$("#character-quote").empty();
-			// $("#quote-text").text("");
-			// $("#quote-footer").text("");
+			// shouldn't get here. I didn't have quotes for all items initially.
+			$("#word-info-card").fadeOut(1000, function() {
+				$("#character-quote").empty();
+				$("#image-container").remove();
+			});
 		}
 	}
 
 	prepareWordDiv() {
+		/*
+		 so, if the current word is "HANGMAN", with only the letter H and N visible,
+		 me.maskedString will be "H*N****N". We want the page to look like "H _ N _ _ _ _ N"
+		The following maps that maskedString to an array of span elements (each span as HTML text).
+		Each span will contain either the letter (if already guessed) or a &nbsp character.
+
+		Each Span will have a class saying if it is underline or non-underline.
+
+		CSS styling will be applied to have a bottom border for letters (whether or not they are guessed)
+		Note that if the word has a space or dash in the word, that will be shown to the user, and will not have a bottom border
+		*/
+
 		var me = this;
-		console.log("maskedString: " + me.maskedString);
+
 		var wordSpans = me.maskedString.split("").map(function(letter) {
-			let spanClass = letter === "*" ? "masked-letter" : (/[a-z]/.test(letter.toLowerCase())) ? "unmasked-letter" : "no-underline";
+			let spanClass = letter === "*" ||  (/[a-z]/.test(letter.toLowerCase())) ? "underline" : "non-underline";
+			// if letter is *, replace with emptyness (&nbsp)
 			if (letter === "*") letter = "&nbsp"
 			return "<span class=" + spanClass +">"+ letter + "</span>";
-		}).join("");
+		});
 
-
-		var wordDiv = ("<div class='word-div'>" + wordSpans + "</div>");
+		// now, combine all those span elements and wrap in a div
+		var wordDiv = ("<div class='word-div'>" + wordSpans.join("") + "</div>");
 		return wordDiv;
 	}
 
 	showGame() {
 		// Actually draw game on page.
 		var me = this;
-		// console.log(app);
-		// let guessesLeft = me.guessesLeft;
-		// console.log("guessesLeft: " + guessesLeft);
 		$("#guesses-left").text(me.guessesLeft);
-		console.log(app);
 		var wordDiv = this.prepareWordDiv()
 
-		// console.log(wordSpans);
 		$("#current-word-card .card-body").html(wordDiv);
-		// console.log("hi", Object.keys(this.game.userGuesses).toString());
 		$("#guessed-letters").text(Object.keys(this.game.userGuesses).toString().split(",").join(" "));
 
 		if (me.game.outcome !== OutcomeEnum.INPROGRESS) {
-			if (me.game.outcome === OutcomeEnum.WIN) {
-				$("body").trigger(EventEnum.GAMEWIN);
-				// me.handleWin();
-			}
-			else if (me.game.outcome === OutcomeEnum.LOSE) {
-				// me.handleLoss();
-				$("body").trigger(EventEnum.GAMELOSE);
-			}
+			console.log("emitting GAMEOVER event");
+			$("body").trigger(EventEnum.GAMEOVER);
 			this.updateQuote();
 		}
 
-		// $(".active-game").show();
 	}
 }
 
 
 
 
-// $(document).ready(function() {
+$(document).ready(function() {
 	var app = new HangmanApp(defaultMaxGuesses, defaultTheme);
-	// var evtNewGame = $("body").event(EventEnum.NEWGAME);
 	// var evtGameLoss = jQuery.event(EventEnum.GAMELOSE);
 	// var evtGameWin = jQuery.event(EventEnum.GAMEWIN);
 
 
+	// this variable will be set momentarily to true at the end of each game to prevent user from
+	// accidently starting a new game right away
+	var ignoreUserInput = false;
 
+	audioElement = document.createElement("audio");
 
 	document.onkeyup = function(event) {
 		// if game is not in progress, then any key starts new game.
-		if (typeof app.game === "undefined" || app.game.outcome !== OutcomeEnum.INPROGRESS ) {
+		// Keyboard input is ignored if game is just inbetween the end of one game and the beginning of another
+		// if (typeof app.game === "undefined" || app.game.outcome !== OutcomeEnum.INPROGRESS ) {
+		if (typeof app.game === "undefined") {
 			$("body").trigger(EventEnum.NEWGAME);
 		}
-		else if (/^Key[A-Z]$/.test(event.code)) {
-			// console.log(event)
+		else if (app.game.outcome === OutcomeEnum.INPROGRESS && /^Key[A-Z]$/.test(event.code)) {
 			app.guessLetter(event.key);
 		}
 
 	}
 
+	window.addEventListener('keydown', function(e) {
+  		if(e.keyCode == 32 && e.target == document.body) {
+    		e.preventDefault();
+  	}
+});
 
 
-// });
+});

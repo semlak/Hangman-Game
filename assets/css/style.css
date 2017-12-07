@@ -69,7 +69,7 @@ body {
 }
 
 
-.masked-letter, .unmasked-letter {
+.underline {
 	border-bottom: 3px solid #555;
 }
 
@@ -77,10 +77,6 @@ body {
 /*  styling for div holding hangman word */
 
 
-
-#current-word-card .card-body {
-	/*letter-spacing: 1em;*/
-}
 
 .word-div span {
 	width: 5px;
@@ -99,6 +95,7 @@ body {
   -o-transition: opacity 0.45s linear;
   transition: opacity 0.45s linear;
 }
+
 .fade.in {
   opacity: 1;
 }
@@ -109,12 +106,7 @@ body {
 	margin-bottom: -10px;
 }
 
-#word-image {
-	/*width: 100%;*/
-	/*height: auto;*/
-	/*width: auto;*/
-	/*max-height: 300px;*/
-	/*height: 300px;*/
-    	/*object-fit: contain;*/
-    /*overflow: hidden;*/
+
+.modal-footer {
+	justify-content: center;
 }
