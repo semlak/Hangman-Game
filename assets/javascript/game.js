@@ -1,26 +1,28 @@
 const defaultTheme = "tolkien";
 const defaultMaxGuesses = 10;
+const maxHeight = 540;
 
 
-var EventEnum = {
+const EventEnum = {
 	NEWGAME: "NEWGAME",
 	GAMEWIN: "GAMEWIN",
 	GAMELOSE: "GAMELOSE"
 }
 
-var OutcomeEnum = {
+const OutcomeEnum = {
 	WIN: 1,
 	LOSE: 2,
 	INPROGRESS: 3
 };
 
 
-var quotesForWords = {
+const quotesForWords = {
 	"Amon Sul": {
 		quote: "But long before, in the first days of the North Kingdom, they built a great watch-tower on Weathertop, Amon Sûl they called it. It was burned and broken, and nothing remains of it now but a tumbled ring, like a rough crown on the old hill’s head. Yet once it was tall and fair. It is told that Elendil stood there watching for the coming of Gil-Galad out of the West, in the days of the Last Alliance.",
 		quoteSource: "Aragorn",
 		aliases: ["Weathertop"],
-		hints: ["Also the place where Frodo was stabbed by the Witch-King."]
+		hints: ["Also the place where Frodo was stabbed by the Witch-King."],
+		image: "./assets/images/amon-sul.png"
 	},
 	"Gil-Galad": {
 		quote: 	`Gil-Galad was an Elven-king.
@@ -43,44 +45,49 @@ var quotesForWords = {
 			'Ruled as High King of the Noldor for over 3,500 years',
 			"Died in combat against Sauron alongside Elendil, in Sauron himself was slain",
 			"Wielded the spear Aeglos"
-		]
+		],
+		image: "./assets/images/gil-galad.jpg"
 	},
 	"Elrond": {
-		// quote: 'It recalled to me the glory of the Elder Days and the hosts of Beleriand, so many great princes and captains were assembled. And yet not so many, nor so fair, as when Thangorodrim was broken, and the Elves deemed that evil was ended for ever, and it was not so.',
 		quote: ". . . my memory reaches back even to the Elder Days. Edrendil was my sire, who was born in Gondolin before its fall; and my mother was Elwing, daughter of Dior, son of Luthien of Doriath. I have seen three ages in the West of the world, and many defeats, and many fruitless victories.",
 		quoteSource: "Elrond, from The Council of Elrond",
 		aliases: [],
-		hints: ["Was the Herald of Gil-Galad in the War of the Last Alliance"]
+		hints: ["Was the Herald of Gil-Galad in the War of the Last Alliance"],
+		image: "./assets/images/elrond.jpg"
 	},
 	"Fingolfin": {
-		quote: "Thus he came alone to Angband’s gates, and he sounded his horn, and smote once more upon the brazen doors, and challenged Morgoth to come forth to single combat. And Morgoth came.",
+		quote: "Thus he came alone to Angband’s gates, and he sounded his horn, and smote once more upon the brazen doors, and challenged Morgoth to come forth to single combat.\n\nAnd Morgoth came.",
 		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
 		aliases: [],
 		hints: [
 			"Was the first High-King of the Noldor after the rising of the Sun and the Moon",
 			"Died in single combat against Morgoth"
-		]
+		],
+		image: "./assets/images/fingolfin.png"
 	},
 	"Fingon": {
-		quote: "Then Gothmog hewed him with his black axe, and a white flame sprang up from the helm of Fingon as it was cloven. Thus fell the High King of the Noldor; and they beat him into the dust with their maces, and his banner, blue and silver, they trod into the mire of his blood.",
+		quote: "Then Gothmog hewed him with his black axe, and a white flame sprang up from the helm of Fingon as it was cloven.",
 		quoteSource: "Quenta Silmarillion: Of the Fifth Battle: Nirnaeth Arnoediad",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/fingon.jpg"
 
 	},
 
 	"Gandalf": {
 		quote: "He wore a tall pointed grey hat, a long grey cloak, and a silver scarf. He had a long white beard and bushy eyebrows that stuck out beyond the brim of his hat.",
 		quoteSource: "The Fellowship of the Ring, A Long-expected Party",
-		aliases: ["Olórin, Mithrandir, Incánus, Tharkûn, Greyhame, Old Greybeard, Gandalf the Grey, Gandalf the White, the Grey Pilgrim, Stormcrow, the White Rider, Láthspell, Big Greybeard, Long Greybeard, Pointy Hat, Tall Fellow, Gandalf the Fool, Gandalf the Wondering Wizard"],
-		hints: []
+		aliases: ["Olórin", "Mithrandir", "Incánus", "Tharkûn", "Greyhame", "Old Greybeard", "Gandalf the Grey", "Gandalf the White", "the Grey Pilgrim", "Stormcrow", "the White Rider", "Láthspell", "Big Greybeard", "Long Greybeard", "Pointy Hat", "Tall Fellow", "Gandalf the Fool", "Gandalf the Wondering Wizard"],
+		hints: [],
+		image: "./assets/images/gandalf.jpg"
 		},
 
 	"Manwe": {
 		quote: "Manwe has no thought for his own honour, and is not jealous of his power, but rules all to peace",
 		quoteSource: "Quenta Silmarillion: Of the Beginning of Days",
 		aliases: ["King of Arda, Lord of the Breath of Arda, King of the Valar, Elder King, Lord of the West, Lord of Aman"],
-		hints: ["name means \"Blessed one\" or \"blessed person", "Ruler of Arda"]
+		hints: ["name means \"Blessed one\" or \"blessed person", "Ruler of Arda"],
+		image: "./assets/images/manwe.jpg"
 		},
 
 
@@ -88,21 +95,24 @@ var quotesForWords = {
 		quote: "For Fëanor was made the mightiest in all parts of body and mind: in valour, in endurance, in beauty, in understanding, in skill, in strength and subtlety alike: of all the Children of Ilúvatar, and a bright flame was in him.",
 		quoteSource: "Quenta Silmarillion:  Of the Sun and Moon and the Hiding of Valinor",
 		aliases: ["Curufinwë", "Fëanáro"],
-		hints: ["Creator of the Silmarils"]
+		hints: ["Creator of the Silmarils"],
+		image: "./assets/images/feanor.jpg"
 		},
 
 	"Finarfin": {
 		quote: "But Finarfin spoke softly, as was his wont, and sought to calm the Noldor, persuading them to pause and ponder ere deeds were done that could not be undone; and Orodreth, alone of his sons, spoke in like manner.",
 		quoteSource: "Quenta Silmarillion: Of the Flight of the Noldor",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/finarfin.jpg"
 		},
 
 	"Finwe": {
 		quote: "But Melkor was also there, and he came to the house of Fëanor and there he slew Finwë King of the Noldor before his doors, and spilled the first blood in the Blessed Realm; for Finwë alone had not fled from the horror of the Dark.",
 		quoteSource: "Quenta Silmarillion: Of the Flight of the Noldor",
 		aliases: ["King of the Noldor"],
-		hints: ["Father of Feanor", "Was one of the three ambassadors chosen by Orome who should go to Valinor and speak for their people"]
+		hints: ["Father of Feanor", "Was one of the three ambassadors chosen by Orome who should go to Valinor and speak for their people"],
+		image: "./assets/images/finwe.jpg"
 		},
 
 
@@ -110,7 +120,8 @@ var quotesForWords = {
 		quote: "The Eldar knew not whence she came; but some have said that in ages long before she descended from the darkness that lies about Arda, when Melkor first looked down in envy upon the Kingdom of Manwë, and that in the beginning she was one of those that he corrupted to his service.",
 		quoteSource: "Quenta Silmarillion: Of the Darkening of Valinor",
 		aliases: ["Ungweliantë, Spider of Night, Ungweliant, Wirilómë, Gloomweaver, Móru, Primeval Night, Night"],
-		hints: []
+		hints: [],
+		image: "./assets/images/Melkor-and-Ungoliant.jpg"
 		},
 
 
@@ -118,7 +129,8 @@ var quotesForWords = {
 		quote: "They are the Nazgul, Ringwraiths, neither living or dead. At all times they feel the presence of the ring...drawn to the power of the one..they will never stop hunting you.",
 		quoteSource: "Aragorn explaining the nazgûl to Frodo, Pippin, Merry and Sam",
 		aliases: ["Ringwraiths", "The Nine", "The Fallen Kings", "Black Riders", "Nunbolg", "Ulairi"],
-		hints: []
+		hints: [],
+		image: "./assets/images/nazgul.jpg"
 		},
 
 
@@ -126,22 +138,25 @@ var quotesForWords = {
 		quote: "The smallest host and the first to set forth was led by Ingwë, the most high lord of all the Elvish race. He entered into Valinor and sits at the feet of the Powers, and all Elves revere his name; but he came never back, nor looked again upon Middle-earth.",
 		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/ingwe.jpg"
 	},
 
 
 	"Melkor": {
-		quote: "and thus did Melkor breed the hideous race of the Orcs in envy and mockery of the Elves, of whom they were afterwards the bitterest foes. For the Orcs had life and multiplied after the manner of the Children of Ilúvatar; and naught that had life of its own, nor the semblance of life, could ever Melkor make since his rebellion in the Ainulindalë before the Beginning: so say the wise.",
+		quote: ". . . and thus did Melkor breed the hideous race of the Orcs in envy and mockery of the Elves, of whom they were afterwards the bitterest foes. For the Orcs had life and multiplied after the manner of the Children of Ilúvatar; and naught that had life of its own, nor the semblance of life, could ever Melkor make since his rebellion in the Ainulindalë before the Beginning: so say the wise.",
 		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/Melkor-and-Ungoliant.jpg"
 	},
 
 	"Morgoth": {
 		quote: "I am the Elder King: Melkor, first and mightiest of all the Valar, who was before the world and made it. The shadow of my purpose lies upon Arda, and all that is in it bends slowly and surely to my will.",
 		quoteSource: "Quenta Silmarillion: The Words of Hurin and Morgoth.",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/morgoth.jpg"
 	},
 
 
@@ -149,7 +164,8 @@ var quotesForWords = {
 		quote: "Then Morgoth hurled aloft Grond, the Hammer of the Underworld, and swung it down like a bolt of thunder. But Fingolfin sprang aside, and Grond rent a mighty pit in the earth, whence smoke and fire darted.",
 		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/grond.jpg"
 	},
 
 
@@ -157,7 +173,8 @@ var quotesForWords = {
 		quote: "And Melkor made also a fortress and armoury not far from the north-western shores of the sea, to resist any assault that might come from Aman. That stronghold was commanded by Sauron, lieutenant of Melkor; and it was named Angband.",
 		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/angband.jpg"
 	},
 
 
@@ -165,7 +182,8 @@ var quotesForWords = {
 		quote: "And the inner fire of the Silmarils Fëanor made of the blended light of the Trees of Valinor, which lives in them yet, though the Trees have long withered and shine no more.",
 		quoteSource: "Quenta Silmarillion: Of the Silmarils and the Unrest of the Noldor",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/silmaril.jpg"
 	},
 
 
@@ -173,7 +191,8 @@ var quotesForWords = {
 		quote: "Now Melkor began the delving and building of a vast fortress, deep under Earth, beneath dark mountains where the beams of Illuin were cold and dim. That stronghold was named Utumno.",
 		quoteSource: "Quenta Silmarillion: Of the Coming of the Elves and the Captivity of Melkor",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/utumno.jpg"
 	},
 
 
@@ -182,14 +201,16 @@ var quotesForWords = {
 		quote: "A sister they had, Galadriel, most beautiful of all the house of Finwë; her hair was lit with gold as though it had caught in a mesh the radiance of Laurelin.",
 		quoteSource: "Quenta Silmarillion: Of Eldamar and the Princes of the Eldalië",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/galadriel.jpg"
 	},
 
 	"Luthien": {
 		quote: "The song of Lúthien before Mandos was the song most fair that ever in words was woven, and the song most sorrowful that ever the world shall ever hear. . . and Mandos was moved to pity, who never before was so moved, nor has been since.",
 		quoteSource: "Quenta Silmarillion: Of Beren and Lúthien",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/luthien.jpg"
 	},
 
 
@@ -197,7 +218,8 @@ var quotesForWords = {
 		quote: "But Fingolfin gleamed beneath it as a star; for his mail was overlaid with silver, and his blue shield was set with crystals; and he drew his sword Ringil, that glittered like ice.",
 		quoteSource: "Quenta Silmarillion: Of the Ruin of Beleriand and the Fall of Fingolfin",
 		aliases: [],
-		hints: []
+		hints: [],
+		image: "./assets/images/ringil.jpg"
 	}
 }
 
@@ -220,16 +242,15 @@ var HangmanGame = class {
 			if (/[a-z]/.test(letter)) game.lettersInWord[letter] = letter
 		});
 
-
 		this.outcome = OutcomeEnum.INPROGRESS;
 
 	}
 
 
-	get getGuesses() {
-		console.log("game is in getGuesses()")
-		return this.userGuesses;
-	}
+	// get getGuesses() {
+	// 	console.log("game is in getGuesses()")
+	// 	return this.userGuesses;
+	// }
 
 	get guessesLeft() {
 		console.log("game is in guessesLeft()")
@@ -302,7 +323,8 @@ var HangmanGame = class {
 
 			}
 			// return true;
-			return this.maskedString;
+			// return this.maskedString;
+			return true;
 		}
 		else {
 			return false;
@@ -331,20 +353,38 @@ var HangmanApp = class {
 		this.maxGuesses = maxGuesses;
 		this.wins = 0;
 		this.losses = 0;
+		// keep track of last word used. For a given game, we don't want to use the last word used for the next word
+		this.lastWordUsed = "";
 
-		this.unusedWords = {};
 		this.possibleWords = this.getPossibleWords(this.theme);
 
-		var app = this;
-		this.unusedWords = {};
+		var me = this;
+
 		// at start of app, load all of the possibleWords into the unused word collection. They will be removed as they are used.
-		this.possibleWords.forEach(word => app.unusedWords[word] = word);
+		this.unusedWords = this.possibleWords.slice(0);  //this clones array by taking slice from first element to end
+
+
+		$("body").on(EventEnum.NEWGAME, function(e) {
+			// console.log("Detected NEWGAME event signal")
+			me.startGame();
+			me.showGame();
+		});
+
+		$("body").on(EventEnum.GAMEWIN, function(e) {
+			me.handleWin();
+		});
+
+		$("body").on(EventEnum.GAMELOSE, function(e) {
+			me.handleLoss();
+		});
+
 	}
 
 
 	getPossibleWords(theme) {
 		console.log("Loading possible words");
 		let words = ["Gandalf", "Manwe", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Ingwe", "Melkor", "Morgoth", "Grond", "Angband", "Silmaril", "Utumno", "Elrond", "Gil-Galad", "Galadriel", "Fingon", "Ungoliant", "Ringil", "Amon Sul", "Nazgul", "Luthien"];
+		// let words = ["Gandalf", "Manwe", "Feanor", "Fingolfin", "Finarfin", "Finwe", "Amon Sul"];
 		return words;
 	}
 
@@ -353,20 +393,27 @@ var HangmanApp = class {
 	startGame() {
 		console.log("App is starting game");
 		// get unused word from unusedWords. However, if all unused words are used, reset all unused words with the possible words
-		var app = this;
-		var possibleWordsArray = Object.keys(this.unusedWords);
-		if (possibleWordsArray.length === 0) {
-			this.possibleWords.forEach(word => app.unusedWords[word] = word);
-			possibleWordsArray = Object.keys(this.unusedWords);
+		var me = this;
+		// potential words used is simply the array of unusedWords, but filtered to remove the word just played.
+		// note that the word just played won't be in there if the player won. However, if the player lost, we want to avoid the same word coming up again.
+		var filteredUnusedWords = this.unusedWords.filter(word => word !== this.lastWordUsed);
+		// Now, if filteredUnusedWords is of length 0, then just reset the word list.
+
+		if (filteredUnusedWords.length < 1) {
+			this.unusedWords = this.possibleWords.slice(0);
+			// refilter to remove last word played
+			var filteredUnusedWords = this.unusedWords.filter(word => word !== this.lastWordUsed);
 		}
 
-		this.word = possibleWordsArray[Math.floor(Math.random()*possibleWordsArray.length)];
-		// this.word = "Amon Sul"
+
+		this.word = filteredUnusedWords[Math.floor(Math.random()*filteredUnusedWords.length)];
+		// this.word = "Fingolfin";
+		// this.word = "Melkor";
+		// this.word = "Gil-Galad";
+		// me.updateQuote();
 		this.game = new HangmanGame(this.word, this.maxGuesses);
-		//remove word from collection of unused words.
-		if (typeof this.unusedWords[this.word] !== "undefined") {
-			delete this.unusedWords[this.word];
-		}
+		this.lastWordUsed = this.word;
+		//We don't remove word from unusedWord list yet, because we only remove when player wins on that word
 
 		$("#app-status .card-header").text("New game in progress.");
 		$("#app-status .card-header").removeClass("alert-success alert-danger alert-info alert-warning in").addClass("alert alert-info fade in")
@@ -383,7 +430,10 @@ var HangmanApp = class {
 
 	guessLetter(letter) {
 		var output = this.game.guessLetter(letter);
-		return (output);
+		// return (output);
+		// update game's display
+		this.showGame();
+
 	}
 
 	guessWord(guessedWord) {
@@ -395,49 +445,112 @@ var HangmanApp = class {
 	}
 
 	handleWin() {
-		var app = this;
+		var me = this;
+		// remove the word just completed from the array of unused words (used filter)
+		this.unusedWords = this.unusedWords.filter( word => word !== me.word);
 		// $("#app-status").empty().append("<div class='card-header'>You Win!!</div>");
 		$("#app-status .card-header").text("You Win!!");
 		$("#app-status .card-header").addClass("out").removeClass("alert-success alert-danger alert-info alert-warning in out").addClass("alert alert-success fade in")
 		// $(this).effect("highlight", {}, 3000);
-		app.wins++;
+		me.wins++;
 		$("#wins-count").addClass("wins-count-updating").fadeOut("slow", function() {
-			$("#wins-count").text(app.wins).fadeIn("slow", function() {
+			$("#wins-count").text(me.wins).fadeIn("slow", function() {
 					$("#wins-count").removeClass("wins-count-updating");
 			});
 		});
 	}
 
 	handleLoss() {
-		var app = this;
+		var me = this;
 		// $("#app-status").empty().append("<p>Sorry. You lossed this one. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></p>");
 		// $("#app-status").empty().append("<div class='card-header'>Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
 		$("#app-status .card-header").html("Sorry. You lossed. <i class=\"fa fa-frown-o\" aria-hidden=\"true\"></i></div>");
 		$("#app-status .card-header").removeClass("alert-success alert-danger alert-info alert-warning in").addClass("alert alert-danger fade in")
-		// console.log(app.maskedString);
+		// console.log(me.maskedString);
 	}
 
 	updateQuote() {
-		var app = this;
-		if (typeof quotesForWords[app.word] !== "undefined") {
+		var me = this;
+		if (typeof quotesForWords[me.word] !== "undefined") {
+			var itemData = quotesForWords[me.word]
 
 			// get new quote
-			var blockQuote = $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[app.word].quote});
+			var blockQuote = $("<div>", {class: "card-blockquote", id: "quote-text", text: "\"" + itemData.quote + "\""});
 			//if there are line breaks "\n" in quote text, replace with <br>
 			blockQuote.html(blockQuote.html().replace(/\n/g,'<br/>'));
 
 			// get quote source
-			var quoteSource = $("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[app.word].quoteSource});
 
+			var quoteSource = $("<div>", {class: "blockquote-footer", id: "quote-source", text: itemData.quoteSource});
+			var cardImage = $("<img>", {class: "card-image-bottom img-fluid", id: "word-image", src: itemData.image, alt: me.word});
 			//update #character-quote element.
-			$("#character-quote").empty().append(blockQuote).append("<br>").append(quoteSource)
-				// $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[app.word].quote})).
-				// append($("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[app.word].quoteSource}));
+			var cardBody = ("<div>", {class: "card-body", id: "character-quote"});
+
+			// to fade in element, help from https://stackoverflow.com/questions/4687579/append-an-element-with-fade-in-effect-jquery
+			// $("#word-info-card").empty();
+			$("#word-info-card").fadeOut(1000, function() {
+				// console.log("starting callback");
+				// $("#word-info-card").empty();
+				// remove any of the manual css settings from jquery
+				$("#image-container").width("");
+				$("#image-container").height("");
+				$("#character-quote div").css("line-height", "");
+
+				$("#character-quote").empty();
+				// $("#word-image").remove();
+				$("#image-container").remove();
+				$("#character-quote").append(blockQuote).append("<br>").append(quoteSource);
+
+				$("#word-info-card").append(cardBody, $("<div id='image-container'>").append(cardImage)).fadeIn(0, function() {
+					// the combined height of the quote and image might be too big. Check the height and resize image if needed.
+					console.log("current card height", $("#word-info-card").outerHeight() );
+					if ($("#word-info-card").outerHeight() > maxHeight) {
+
+						var quoteHeight = $("#character-quote").outerHeight();
+						// first, if quote height is more than half of the height of the container, shrink line-height.
+						// it might still be greater than half height, but should be better.
+						if (quoteHeight > maxHeight /2){
+							$("#character-quote div").css("line-height", 1);
+							quoteHeight = $("#character-quote").outerHeight();
+						}
+
+						// It seems the best way to change the height is by reducing container width, since using responsive image
+						var imageContainerHeight = $("#word-info-card").outerHeight() - quoteHeight
+
+						var imageContainerWidth = $("#image-container").outerWidth();
+						var newImageHeight = maxHeight - quoteHeight;
+						var newImageWidth = imageContainerWidth / imageContainerHeight * newImageHeight;
+						console.log("quoteHeight", quoteHeight);
+						console.log("old image width and height:", imageContainerWidth, imageContainerHeight);
+						console.log("trying to set new width and height of ", newImageWidth, newImageHeight);
+						// only peform change if new width less than old.
+						if (newImageWidth < imageContainerWidth) {
+							//change container width to appropriate height, but also set height of image
+							$("#image-container").width(newImageWidth);
+							$("#word-image").height(newImageHeight);
+						}
+					}
+					$("#word-info-card").fadeOut(0, function() {
+						$("#word-info-card").fadeIn(500);
+					});
+
+
+				});
+			});
+			// cardBody = $("word")
+			// cardBody.append(blockQuote).append("<br>").append(quoteSource);
+
+			//this keeps adding to the card while it is fading in.
+
+			// append(image);
+			// $("#character-quote").append()
+				// $("<div>", {class: "card-blockquote", id: "quote-text", text: quotesForWords[me.word].quote})).
+				// append($("<div>", {class: "blockquote-footer", id: "quote-source", text: quotesForWords[me.word].quoteSource}));
 
 				//if there are line breaks "\n" in quote text, replace with <br>
 
-			// $("#quote-text").text(quotesForWords[app.word].quote);
-			// $("#quote-footer").text(quotesForWords[app.word].quoteSource);
+			// $("#quote-text").text(quotesForWords[me.word].quote);
+			// $("#quote-footer").text(quotesForWords[me.word].quoteSource);
 		}
 		else {
 			// no quote for this word.
@@ -448,9 +561,9 @@ var HangmanApp = class {
 	}
 
 	prepareWordDiv() {
-		var app = this;
-		console.log("maskedString: " + app.maskedString);
-		var wordSpans = app.maskedString.split("").map(function(letter) {
+		var me = this;
+		console.log("maskedString: " + me.maskedString);
+		var wordSpans = me.maskedString.split("").map(function(letter) {
 			let spanClass = letter === "*" ? "masked-letter" : (/[a-z]/.test(letter.toLowerCase())) ? "unmasked-letter" : "no-underline";
 			if (letter === "*") letter = "&nbsp"
 			return "<span class=" + spanClass +">"+ letter + "</span>";
@@ -463,11 +576,11 @@ var HangmanApp = class {
 
 	showGame() {
 		// Actually draw game on page.
-		var app = this;
+		var me = this;
 		// console.log(app);
-		// let guessesLeft = app.guessesLeft;
+		// let guessesLeft = me.guessesLeft;
 		// console.log("guessesLeft: " + guessesLeft);
-		$("#guesses-left").text(app.guessesLeft);
+		$("#guesses-left").text(me.guessesLeft);
 		console.log(app);
 		var wordDiv = this.prepareWordDiv()
 
@@ -476,14 +589,14 @@ var HangmanApp = class {
 		// console.log("hi", Object.keys(this.game.userGuesses).toString());
 		$("#guessed-letters").text(Object.keys(this.game.userGuesses).toString().split(",").join(" "));
 
-		if (app.game.outcome !== OutcomeEnum.INPROGRESS) {
-			if (app.game.outcome === OutcomeEnum.WIN) {
+		if (me.game.outcome !== OutcomeEnum.INPROGRESS) {
+			if (me.game.outcome === OutcomeEnum.WIN) {
 				$("body").trigger(EventEnum.GAMEWIN);
-				// app.handleWin();
+				// me.handleWin();
 			}
-			else if (app.game.outcome === OutcomeEnum.LOSE) {
-				// app.handleLoss();
-				$("body").trigger(EventEnum.NEWLOSE);
+			else if (me.game.outcome === OutcomeEnum.LOSE) {
+				// me.handleLoss();
+				$("body").trigger(EventEnum.GAMELOSE);
 			}
 			this.updateQuote();
 		}
@@ -495,7 +608,7 @@ var HangmanApp = class {
 
 
 
-$(document).ready(function() {
+// $(document).ready(function() {
 	var app = new HangmanApp(defaultMaxGuesses, defaultTheme);
 	// var evtNewGame = $("body").event(EventEnum.NEWGAME);
 	// var evtGameLoss = jQuery.event(EventEnum.GAMELOSE);
@@ -508,31 +621,14 @@ $(document).ready(function() {
 		// if game is not in progress, then any key starts new game.
 		if (typeof app.game === "undefined" || app.game.outcome !== OutcomeEnum.INPROGRESS ) {
 			$("body").trigger(EventEnum.NEWGAME);
-			// app.startGame();
-			// app.showGame()
 		}
 		else if (/^Key[A-Z]$/.test(event.code)) {
-			console.log(event)
+			// console.log(event)
 			app.guessLetter(event.key);
-			app.showGame();
 		}
 
 	}
 
-	$("body").on(EventEnum.NEWGAME, function(e) {
-		console.log("Detected NEWGAME event signal")
-		app.startGame();
-		app.showGame();
-	});
-
-	$("body").on(EventEnum.GAMEWIN, function(e) {
-		app.handleWin();
-	});
-
-	$("body").on(EventEnum.GAMELOSE, function(e) {
-		app.handleLoss();
-	});
 
 
-
-});
+// });

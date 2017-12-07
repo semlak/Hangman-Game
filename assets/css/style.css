@@ -1,17 +1,27 @@
 
 #top-border {
-	margin: 85px auto 0 auto;
-	height: 50px;
+	/*position: fixed;*/
+	/*margin: top: 90px;*/
+	/*margin: 85px auto 0 auto;*/
+	/*height: 50px;*/
 	/*border: 3px solid #ddd;*/
 	/*padding: 40px;*/
-	background: url(../images/bg_top.png) 100% top repeat-x;
+	/*background: url(../images/bg_top.png) 100% top repeat-x;*/
+/*
+	position: fixed;
+	z-index: 99;
+	width: 100%;*/
+	/*margin: 0 0 90px;*/
 }
 
 #game-container {
 	/*margin: 120px auto;*/
-	margin: 30px auto;
+	margin: 130px auto;
+	/*margin: 40px auto;*/
 	border: 3px solid #ddd;
 	padding: 40px;
+	height: 600px;
+	/*max-height: 700px;*/
 }
 
 
@@ -58,6 +68,7 @@ body {
 
 }
 
+
 .masked-letter, .unmasked-letter {
 	border-bottom: 3px solid #555;
 }
@@ -90,4 +101,20 @@ body {
 }
 .fade.in {
   opacity: 1;
+}
+
+
+#app-status .card-body {
+	margin-top: -30px;
+	margin-bottom: -10px;
+}
+
+#word-image {
+	/*width: 100%;*/
+	/*height: auto;*/
+	/*width: auto;*/
+	/*max-height: 300px;*/
+	/*height: 300px;*/
+    	/*object-fit: contain;*/
+    /*overflow: hidden;*/
 }
