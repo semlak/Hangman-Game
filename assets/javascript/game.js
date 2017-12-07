@@ -82,11 +82,13 @@ const GameData = {
 	},
 
 	"Gandalf": {
-		quote: "He wore a tall pointed grey hat, a long grey cloak, and a silver scarf. He had a long white beard and bushy eyebrows that stuck out beyond the brim of his hat.",
+		quote: "A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to.",
 		quoteSource: "The Fellowship of the Ring, A Long-expected Party",
 		aliases: ["Olórin", "Mithrandir", "Incánus", "Tharkûn", "Greyhame", "Old Greybeard", "Gandalf the Grey", "Gandalf the White", "the Grey Pilgrim", "Stormcrow", "the White Rider", "Láthspell", "Big Greybeard", "Long Greybeard", "Pointy Hat", "Tall Fellow", "Gandalf the Fool", "Gandalf the Wondering Wizard"],
 		hints: [],
-		image: "./assets/images/gandalf.jpg"
+		image: "./assets/images/gandalf.jpg",
+		// audio: "./assets/audio/gandalf.mp3"
+		audio: "http://www.moviesoundclips.net/download.php?id=585&ft=mp3"
 		},
 
 	"Manwe": {
@@ -385,7 +387,8 @@ var HangmanApp = class {
 
 	getPossibleWords(theme) {
 		// convert the "keys" of GameData object into an array. They are the possible hangman words
-		let words = Object.keys(GameData);
+		// let words = Object.keys(GameData);
+		let words = ["Gandalf", "Fingolfin"];
 		return words;
 	}
 
@@ -530,9 +533,10 @@ var HangmanApp = class {
 			});
 			if (typeof itemData.audio !== "undefined") {
 				var audioURL = itemData.audio;
-				if (/github\.io/.test(document.URL)) {
+				if (/github\.io/.test(document.URL) && /^\.\/assets\/audio/.test(audioURL)) {
 					audioURL = "https://raw.githubusercontent.com/semlak/Hangman-Game/master/" + audioURL;
 				}
+				console.log(audioURL);
 				audioElement.setAttribute("src", audioURL);
 				audioElement.play();
 			}
