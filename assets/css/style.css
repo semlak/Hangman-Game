@@ -1,19 +1,4 @@
 
-#top-border {
-	/*position: fixed;*/
-	/*margin: top: 90px;*/
-	/*margin: 85px auto 0 auto;*/
-	/*height: 50px;*/
-	/*border: 3px solid #ddd;*/
-	/*padding: 40px;*/
-	/*background: url(../images/bg_top.png) 100% top repeat-x;*/
-/*
-	position: fixed;
-	z-index: 99;
-	width: 100%;*/
-	/*margin: 0 0 90px;*/
-}
-
 #game-container {
 	/*margin: 120px auto;*/
 	margin: 130px auto;
@@ -24,18 +9,6 @@
 	/*max-height: 700px;*/
 }
 
-
-html {
-	/*background: #000;*/
-
-}
-
-body {
-	/*background: url(../../background.jpg) 100% top no-repeat;*/
-	/*background: url(../../background.jpg);*/
-	/*background-size: 100% 100%;*/
-
-}
 
 .active-game {
 	/*visibility: hidden;*/

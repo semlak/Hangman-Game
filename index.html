@@ -46,11 +46,11 @@
 				<div class="col-sm-6">
 					<div class="card" id="word-info-card">
 						<div class="card-body" id="character-quote">
-							<div class="card-blockquote" id="quote-text">Fun quote here</div>
-							<br>
-							<div class="blockquote-footer" id="quote-footer">Anonymous</div>
+							<div>Hangman game with words from the Tolkien Legendarium</div>
 						</div>
-						<!-- <img class="card-img-bottom word-image" src="./assets/images/fingolfin.png"> -->
+						<div id="image-container">
+							<img class="card-img-bottom word-image" src="./assets/images/legendarium.png">
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -83,31 +83,32 @@
 				</div>
 			</div>
 		</div>
-<!-- Modal -->
-<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="helpModalLabel">Game Help</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<ul>
-					<li>This is an implementation of the game <a href="https://en.wikipedia.org/wiki/Hangman_(game)" target="_blank">Hangman</a> primarily using JavaScript.
-					<li>All of the words from from <a href="https://en.wikipedia.org/wiki/Tolkien%27s_legendarium" target="_blank">Tolkien's Legendarium</a> (Lord of the Rings/Silmarillion)</li>
-					<li>To start a game, press any key</li>
-					<li>During a game, with the webpage having keyboard focus, press any letter, trying to guess the Hangman word</li>
-				</ul>
-			</div>
-			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-secondary text-center" data-dismiss="modal">Close</button> -->
-				<button type="button" class="btn btn-primary" data-dismiss="modal">Okay!</button>
+		<!-- Modal -->
+		<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="helpModalLabel">Game Help</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<ul>
+							<li>This is an implementation of the game <a href="https://en.wikipedia.org/wiki/Hangman_(game)" target="_blank">Hangman</a> primarily using JavaScript.
+							<li>All of the words from from <a href="https://en.wikipedia.org/wiki/Tolkien%27s_legendarium" target="_blank">Tolkien's Legendarium</a> (Lord of the Rings/Silmarillion)</li>
+							<li>To start a game, press any key</li>
+							<li>During a game, with the webpage having keyboard focus, press any letter, trying to guess the Hangman word</li>
+							<li>The git repository for the project is located at <a href="https://github.com/semlak/Hangman-Game/" target="_blank">https://github.com/semlak/Hangman-Game/</a></li>
+						</ul>
+					</div>
+					<div class="modal-footer">
+						<!-- <button type="button" class="btn btn-secondary text-center" data-dismiss="modal">Close</button> -->
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Okay!</button>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
 
 
 
